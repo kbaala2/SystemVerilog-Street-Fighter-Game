@@ -1,0 +1,101 @@
+// module desp_example (
+// 	input logic vga_clk,
+// 	input logic [9:0] DrawX, DrawY, spritex, spritey,
+// 	input logic blank, chosen, stand, crouch, jump, kick, punch, flip, crouchpunch, move, block, dead,
+// 	output logic [3:0] red, green, blue
+// );
+
+// logic [11:0] rom_address;
+// logic [3:0] rom_q_crouch, rom_q_stand, rom_q_jump, rom_q_kick, rom_q_punch, rom_q_crouchpunch, rom_q_move,rom_q_b, rom_q_d;
+
+// logic [3:0] crouch_red,crouch_green,crouch_blue,stand_red,stand_green,stand_blue,jump_red,jump_green,jump_blue,kick_red,kick_green,kick_blue,punch_red,punch_green,punch_blue;
+// logic [3:0] crouchpunch_red, crouchpunch_green, crouchpunch_blue, move_red, move_green, move_blue, br, bg, bb, dr, dg, db;
+// logic negedge_vga_clk;
+// // read from ROM on negedge, set pixel on posedge
+// assign negedge_vga_clk = ~vga_clk;
+
+// // address into the rom = (x*xDim)/640 + ((y*yDim)/480) * xDim
+// // this will stretch out the sprite across the entire screen
+// always_comb begin
+// 	if(!flip)
+// 		rom_address = (63 - (DrawX - spritex)/2 + ((DrawY-spritey)/2*64));
+// 	else
+// 		rom_address = ((DrawX - spritex)/2 + ((DrawY-spritey)/2*64));
+// end
+
+// always_ff @ (posedge vga_clk) begin
+// 	red <= 4'h0;
+// 	green <= 4'h0;
+// 	blue <= 4'h0;
+
+// 	if(chosen)begin
+// 	if(blank && dead) begin
+// 		red <= dr;
+// 		green <= dg;
+// 		blue <= db;
+// 	end
+// 	else if (blank && stand && !move) begin
+// 		red <= stand_red;
+// 		green <= stand_green;
+// 		blue <= stand_blue;
+// 	end
+// 	else if(blank && crouch) begin
+// 		red <= crouch_red;
+// 		green <= crouch_green;
+// 		blue <= crouch_blue;
+// 	end
+// 	else if(blank && jump) begin
+// 		red <= jump_red;
+// 		green <= jump_green;
+// 		blue <= jump_blue;
+// 	end
+// 	else if(blank && kick) begin
+// 		red <= kick_red;
+// 		green <= kick_green;
+// 		blue <= kick_blue;
+// 	end
+// 	else if(blank && punch) begin
+// 		red <= punch_red;
+// 		green <= punch_green;
+// 		blue <= punch_blue;
+// 	end
+// 	else if(blank && crouchpunch) begin
+// 		red <= crouchpunch_red;
+// 		green <= crouchpunch_green;
+// 		blue <= crouchpunch_blue;
+// 	end
+// 	else if(blank && move && stand) begin
+// 		red <= move_red;
+// 		green <= move_green;
+// 		blue <= move_blue;
+// 	end
+// 	else if(blank && block) begin
+// 		red <= br;
+// 		green <= bg;
+// 		blue <= bb;
+// 	end
+// 	end
+// end
+
+// despstand_rom standrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_stand));
+// despcrouch_rom crouchrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_crouch));
+// despjump_rom jumprom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_jump));
+// despkick_rom kickrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_kick));
+// desppunch_rom punchrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_punch));
+// despcrouchpunch_rom crouchpunchrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_crouchpunch));
+// despmove_rom moverom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_move));
+// despblock_rom blockrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_b));
+// despdead_rom deadrom (.clock(negedge_vga_clk), .address(rom_address), .q(rom_q_d));
+
+// despstand_palette standpalette (.index(rom_q_stand), .red(stand_red), .green(stand_green), .blue(stand_blue));
+// despcrouch_palette crouchpalette (.index(rom_q_crouch), .red(crouch_red), .green(crouch_green), .blue(crouch_blue));
+// despjump_palette jumppalette (.index(rom_q_jump), .red(jump_red), .green(jump_green), .blue(jump_blue));
+// despkick_palette kickpalette (.index(rom_q_kick), .red(kick_red), .green(kick_green), .blue(kick_blue));
+// desppunch_palette punchpalette (.index(rom_q_punch), .red(punch_red), .green(punch_green), .blue(punch_blue));
+// despcrouchpunch_palette crouchpunchpalette (.index(rom_q_crouchpunch), .red(crouchpunch_red), .green(crouchpunch_green), .blue(crouchpunch_blue));
+// despmove_palette movepalette (.index(rom_q_move), .red(move_red), .green(move_green), .blue(move_blue));
+// despblock_palette blockpalette (.index(rom_q_b), .red(br), .green(bg), .blue(bb));
+// despdead_palette deadpalette (.index(rom_q_d), .red(dr), .green(dg), .blue(db));
+
+// endmodule
+

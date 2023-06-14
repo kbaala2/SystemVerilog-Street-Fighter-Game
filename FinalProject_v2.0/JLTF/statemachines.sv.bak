@@ -1,0 +1,90 @@
+//Two-always example for state machine
+
+module animation (	input pixel_Clk, Reset, stand,
+						output logic p1, p2);
+
+    // Declare signals curr_state, next_state of type enum
+    // with enum values of A, B, ..., F as the state values
+	 // Note that the length implies a max of 8 states, so you will need to bump this up for 8-bits
+    enum logic [2:0] {A,B,C,D,E}   curr_state, next_state; 
+	
+	logic [5:0] counter, counter_next; 
+	
+//	logic [15:0] A_and_B;
+//	assign A_and_B = {Aval,Bval};
+	
+	
+	//updates flip flop, current state is the only one
+    always_ff @ (posedge Clk)  
+    begin
+        if (Reset)begin
+            curr_state <= A;
+				counter <= 0;
+			end			
+        else begin
+            curr_state <= next_state;
+				counter <= counter_next;
+		  end
+    end
+
+    // Assign outputs based on state
+	always_comb
+    begin
+        
+//		  next_state  = curr_state;	//required because I haven't enumerated all possibilities below
+        unique case (curr_state) 
+
+            A :  if ()begin
+
+								end
+								
+            B :    if(M && counter != 4'b0111)begin
+
+							end
+							
+							
+            C :    begin
+
+							end
+								
+							
+				
+				D :    next_state = C;
+
+
+            E :    
+							  
+        endcase
+   
+		  // Assign outputs based on ‘state’
+        case (curr_state) 
+	   	   A: 
+	         begin
+
+		      end
+				
+	   	   B: 
+		      begin
+
+		      end
+				
+	   	   C: 
+		      begin
+
+		      end
+				
+	   	   D: 
+		      begin
+
+		      end
+				
+				//we still need idle state
+				
+	   	   default:  //default case, can also have default assignments for Ld_A and Ld_B before case
+		      begin 
+
+		      end
+        endcase
+    end
+
+endmodule
